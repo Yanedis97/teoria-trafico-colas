@@ -115,14 +115,14 @@ def get_values_mm1k(request_body):
 def compute_mm1(MM1_values: MM1 = Body(...)):
     basic_values = get_values_mm1(MM1_values)
 
-    return Response.success(data=basic_values, message="MM1 values found")
+    return Response.success(data=[basic_values], message="MM1 values found")
 
 
 @app.post("/mms-analysis")
 def compute_mms(MMs_values: MMs = Body(...)):
     basic_values = get_values_mms(MMs_values)
 
-    return Response.success(data=basic_values, message="MMs values found")
+    return Response.success(data=[basic_values], message="MMs values found")
 
 
 @app.post("/mms-costos-analysis")
@@ -145,7 +145,7 @@ def compute_mms_costos(Costos_values: Costos = Body(...)):
 
         costos_values.append(basic_values)
 
-    return Response.success(data=costos_values, message="MMs-Costos values found")
+    return Response.success(data=[costos_values], message="MMs-Costos values found")
 
 
 @app.post("/mm1k-analysis")
@@ -154,7 +154,7 @@ def compute_mm1k(MM1k_values: MM1K = Body(...)):
 
     print(type(basic_values))
 
-    return Response.success(data=basic_values, message="MM1k values found")
+    return Response.success(data=[basic_values], message="MM1k values found")
 
 # @app.post("/mms-costos-analysis")
 # def register_person(person: Person = Body(...)):

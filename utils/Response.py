@@ -24,18 +24,17 @@ class Response:
             'data': data,
             'message': message,
         }
-        return cls.aws(data)
+        return data
 
     @classmethod
-    def success(cls, data: list = [], message: str = 'Petición exitosa', pagination: dict = {}):
+    def success(cls, data: list = [], message: str = 'Petición exitosa'):
         response = {
             'statusCode': 200,
             'data': data,
             'message': message
         }
-        if pagination:
-            response['pagination'] = pagination
-        return cls.aws(response)
+        
+        return response
     
     @classmethod
     def not_found(cls, message: str = 'Recurso no encontrado'):
@@ -45,7 +44,7 @@ class Response:
             'data': [],
             'message': message,
         }
-        return cls.aws(data)
+        return data
 
     @classmethod
     def internal_server_error(cls):
@@ -55,4 +54,4 @@ class Response:
             'data': [],
             'message': 'Error interno del servidor',
         }
-        return cls.aws(data)
+        return data
