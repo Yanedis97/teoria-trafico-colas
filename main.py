@@ -12,10 +12,28 @@ app = FastAPI()
 # Configuración de políticas CORS para permitir cualquier origen
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://127.0.0.1:5000", "localhost:3000",
+                   "http://localhost:3000", "http://localhost:3000/",
+                   "https://trafico-y-cola.vercel.app/", 
+                   "https://trafico-y-cola.vercel.app"],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=[
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS",
+    ],
+    allow_headers=[
+        "Access-Control-Allow-Headers",
+        "Origin",
+        "Accept",
+        "X-Requested-With",
+        "Content-Type",
+        "Access-Control-Request-Method",
+        "Access-Control-Request-Headers",
+        "Access-Control-Allow-Origin",
+    ],
 )
 
 
