@@ -1,17 +1,22 @@
-#from typing import Optional
-#from  datetime import date, datetime
-#from pydantic import BaseModel, Field
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Body
 from models.MMs import MM1, MMs,Costos, MM1K
 from utils.Response import Response
 
-#from cryptography.fernet import Fernet
-
-#key=Fernet.generate_key()
-#f = Fernet(key)
 
 app = FastAPI()
+
+# Configuración de políticas CORS para permitir cualquier origen
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
+)
+
 
 def factorial(n):
     return 1 if (n == 1 or n == 0) else n * factorial(n - 1)
@@ -48,7 +53,11 @@ def get_values_mms(request_body, no_server = 0):
     basic_values['wq'] = round(basic_values['lq']/lamb,3)
     basic_values['ws'] = round(basic_values['wq']+(1/miu),3)
 
+    for key, value in basic_values.items():
+        basic_values[key] = float(value)
+
     return basic_values
+
 
 def get_values_mm1(request_body):
     lamb = request_body.lamb
@@ -67,7 +76,11 @@ def get_values_mm1(request_body):
     basic_values['wq'] = round(lamb/(miu*(miu-lamb)),4)
     basic_values['ws'] = round(1/(miu-lamb),4)
 
+    for key, value in basic_values.items():
+        basic_values[key] = float(value)
+
     return basic_values
+
 
 def get_values_mm1k(request_body):
     lamb = request_body.lamb
@@ -91,6 +104,9 @@ def get_values_mm1k(request_body):
     basic_values['w'] = round(basic_values['l']/basic_values['lambda_prima'],4)
     basic_values['wq'] = round(basic_values['w']-(1/miu),4)
     basic_values['lq'] = round(basic_values['lambda_prima']*basic_values['wq'],4)
+
+    for key, value in basic_values.items():
+        basic_values[key] = float(value)
 
     return basic_values
 
@@ -123,9 +139,9 @@ def compute_mms_costos(Costos_values: Costos = Body(...)):
         Costos_values.number_servers = i
 
         basic_values = get_values_mms(Costos_values, number_servers)
-        basic_values['e_cs'] = i*Costos_values.service_cost
-        basic_values['e_cw'] = Costos_values.wait_cost*basic_values['ls']
-        basic_values['e_ct'] = basic_values['e_cs'] + basic_values['e_cw']
+        basic_values['e_cs'] = float(i*Costos_values.service_cost)
+        basic_values['e_cw'] = float(Costos_values.wait_cost*basic_values['ls'])
+        basic_values['e_ct'] = float(basic_values['e_cs'] + basic_values['e_cw'])
 
         costos_values.append(basic_values)
 

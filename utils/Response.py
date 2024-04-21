@@ -1,6 +1,20 @@
 import json
 
 class Response:
+
+    @classmethod
+    def aws(cls, data: dict):
+
+        data['data'] = data.get('data', [])
+        data['error'] = data.get('error', False)
+
+        return {
+            "statusCode": data['statusCode'],
+            "headers": {
+                'Content-Type': 'application/json'
+            },
+            "body": json.dumps(data)
+        }
     
     @classmethod
     def error(cls, data = [],  message: str = 'Error del cliente'):
@@ -10,7 +24,7 @@ class Response:
             'data': data,
             'message': message,
         }
-        return data
+        return cls.aws(data)
 
     @classmethod
     def success(cls, data: list = [], message: str = 'Petición exitosa', pagination: dict = {}):
@@ -21,7 +35,7 @@ class Response:
         }
         if pagination:
             response['pagination'] = pagination
-        return response
+        return cls.aws(response)
     
     @classmethod
     def not_found(cls, message: str = 'Recurso no encontrado'):
@@ -31,7 +45,7 @@ class Response:
             'data': [],
             'message': message,
         }
-        return data
+        return cls.aws(data)
 
     @classmethod
     def internal_server_error(cls):
@@ -41,4 +55,4 @@ class Response:
             'data': [],
             'message': 'Error interno del servidor',
         }
-        return data
+        return cls.aws(data)
