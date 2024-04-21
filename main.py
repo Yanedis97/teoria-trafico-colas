@@ -13,6 +13,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -115,7 +116,8 @@ def get_values_mm1k(request_body):
 def compute_mm1(MM1_values: MM1 = Body(...)):
     basic_values = get_values_mm1(MM1_values)
 
-    return Response.success(data=[basic_values], message="hola")
+    #return Response.success(data=[basic_values], message="hola")
+    return {"message":"hola"}
 
 
 @app.post("/mms-analysis")
