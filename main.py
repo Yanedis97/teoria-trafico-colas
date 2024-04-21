@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
-from flask_cors import CORS
+#from flask_cors import CORS
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Body
 from models.MMs import MM1, MMs,Costos, MM1K
 from utils.Response import Response
@@ -9,7 +10,13 @@ from utils.Response import Response
 app = FastAPI()
 
 # Configuración de políticas CORS para permitir cualquier origen
-CORS(app, resources={r"/mm*": {"origins": "*"}})
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def factorial(n):
