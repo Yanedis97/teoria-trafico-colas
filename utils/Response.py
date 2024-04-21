@@ -1,20 +1,6 @@
 import json
 
 class Response:
-
-    @classmethod
-    def aws(cls, data: dict):
-
-        data['data'] = data.get('data', [])
-        data['error'] = data.get('error', False)
-
-        return {
-            "statusCode": data['statusCode'],
-            "headers": {
-                'Content-Type': 'application/json'
-            },
-            "body": json.dumps(data)
-        }
     
     @classmethod
     def error(cls, data = [],  message: str = 'Error del cliente'):
