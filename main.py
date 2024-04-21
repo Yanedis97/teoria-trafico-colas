@@ -115,7 +115,7 @@ def get_values_mm1k(request_body):
 def compute_mm1(MM1_values: MM1 = Body(...)):
     basic_values = get_values_mm1(MM1_values)
 
-    return Response.success(data=[basic_values], message="MM1 values found")
+    return Response.success(data=[basic_values], message="hola")
 
 
 @app.post("/mms-analysis")
